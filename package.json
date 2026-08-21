@@ -1,0 +1,22 @@
+{
+  "name": "karoorerp",
+  "version": "0.1.0",
+  "description": "Modern ERP - Node.js + Express + MySQL (Plesk ready)",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "keywords": ["erp","node","express","mysql","plesk"],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cookie-parser": "^1.4.6",
+    "csurf": "^1.11.0",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "express-session": "^1.17.3",
+    "helmet": "^6.0.1",
+    "mysql2": "^3.3.0"
+  }
+}

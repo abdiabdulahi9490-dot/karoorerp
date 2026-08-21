@@ -1,0 +1,14 @@
+/* public/assets/css/style.css - minimal UI skeleton */
+:root{ --bg:#f6f8fa; --accent:#1f8f6b; --muted:#6b7280 }
+body{font-family:Inter,system-ui,Arial;background:var(--bg);color:#111;margin:0}
+.sidebar{width:220px;height:100vh;background:#fff;padding:1rem;position:fixed}
+.topnav{height:60px;background:#fff;padding:1rem;margin-left:220px}
+#app{margin-left:220px;padding:1rem}
+.card{background:#fff;padding:1.25rem;border-radius:8px;box-shadow:0 1px 3px rgba(0,0,0,.06);max-width:420px;margin:4rem auto}
+.login-page input{width:100%;padding:.5rem;margin:.25rem 0}
+button{background:var(--accent);color:#fff;border:none;padding:.6rem 1rem;border-radius:6px}
+
+/* Receipt print placeholders */
+@media print{
+  body{background:#fff}
+}
