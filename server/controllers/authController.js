@@ -1,6 +1,7 @@
 // server/controllers/authController.js
 const pool = require('../config/database');
 const bcrypt = require('bcryptjs');
+const { logAudit } = require('../services/auditService');
 
 async function login(req, res) {
   const { email, password } = req.body;
@@ -15,10 +16,13 @@ async function login(req, res) {
     if (!match) return res.status(401).json({ message: 'Invalid credentials' });
 
     // Set session
-    req.session.user = { id: user.id, username: user.username, email: user.email, role: user.role };
+    req.session.user = { id: user.id, username: user.username, email: user.email, role: user.role, role_id: user.role_id };
 
     // Update last_login_at
     await pool.query('UPDATE users SET last_login_at = NOW() WHERE id = ?', [user.id]);
+
+    // Audit
+    await logAudit({ user_id: user.id, action: 'LOGIN', module: 'auth', record_id: user.id, ip_address: req.ip, user_agent: req.headers['user-agent'] });
 
     return res.json({ id: user.id, username: user.username, email: user.email, role: user.role });
   } catch (err) {
@@ -28,8 +32,12 @@ async function login(req, res) {
 }
 
 async function logout(req, res) {
-  req.session.destroy(() => {
+  const userId = req.session && req.session.user && req.session.user.id;
+  req.session.destroy(async () => {
     res.clearCookie('erp_session');
+    if (userId) {
+      await logAudit({ user_id: userId, action: 'LOGOUT', module: 'auth', ip_address: req.ip, user_agent: req.headers['user-agent'] });
+    }
     return res.json({ message: 'Logged out' });
   });
 }

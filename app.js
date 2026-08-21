@@ -30,6 +30,10 @@ app.use(session({
   }
 }));
 
+// Attach user if session exists
+const { attachUser } = require('./server/middleware/auth');
+app.use(attachUser);
+
 // Static files
 app.use(express.static(path.join(__dirname, 'public')));
 
